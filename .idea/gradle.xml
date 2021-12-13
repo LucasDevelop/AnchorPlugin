@@ -12,7 +12,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/analytics-annotation" />
             <option value="$PROJECT_DIR$/analytics-plugin" />
             <option value="$PROJECT_DIR$/analytics-utils" />
             <option value="$PROJECT_DIR$/app" />

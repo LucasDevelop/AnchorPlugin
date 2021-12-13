@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.lucas.annotation.TrackMethod
-import com.lucas.annotation.TrackPage
+import com.lucas.analytics.annotation.TrackMethod
+import com.lucas.analytics.annotation.TrackPage
 
 @TrackPage("首页","APP","app")
 class MainActivity : AppCompatActivity() {

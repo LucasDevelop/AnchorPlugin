@@ -7,8 +7,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.lucas.annotation.TrackMethod;
-import com.lucas.annotation.TrackPage;
+import com.lucas.analytics.annotation.TrackMethod;
+import com.lucas.analytics.annotation.TrackPage;
 import com.lucas.loginlib.LoginActivity;
 
 @TrackPage(moduleName = "java 页面",pageName = "",childPageName = "")

@@ -1,4 +1,4 @@
-package com.lucas.annotation
+package com.lucas.analytics_plugin.config
 
 enum class ActivityLifecycle(val methodName: String,val des:String) {
     ON_CREATE("onCreate","()V"),

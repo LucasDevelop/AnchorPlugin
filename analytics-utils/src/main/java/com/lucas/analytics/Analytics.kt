@@ -3,7 +3,6 @@ package com.lucas.analytics
 import android.app.Application
 import com.lucas.analytics.common.IAnalytics
 import com.lucas.analytics.common.impl.FirebaseAnalytics
-import com.lucas.annotation.ActivityLifecycle
 
 /**
  * File Analytics.kt

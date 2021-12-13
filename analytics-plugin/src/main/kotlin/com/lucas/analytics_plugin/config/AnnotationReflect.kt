@@ -1,13 +1,10 @@
 package com.lucas.analytics_plugin.config
 
-import com.lucas.annotation.ActivityLifecycle
-import com.lucas.annotation.TrackMethod
-import com.lucas.annotation.TrackPage
 
 object AnnotationReflect {
     //注解字节码名称
-    val trackPage = "L${TrackPage::class.java.canonicalName.replace(".","/")};"
-    val trackMethod = "L${TrackMethod::class.java.canonicalName.replace(".","/")};"
+    val trackPage = "Lcom/lucas/analytics/annotation/TrackPage;"
+    val trackMethod = "Lcom/lucas/analytics/annotation/TrackMethod;"
 
     //插桩生命周期
     val registerLifecycles = mutableListOf(

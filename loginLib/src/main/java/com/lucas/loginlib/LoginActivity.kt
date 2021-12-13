@@ -2,8 +2,8 @@ package com.lucas.loginlib
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lucas.annotation.TrackMethod
-import com.lucas.annotation.TrackPage
+import com.lucas.analytics.annotation.TrackMethod
+import com.lucas.analytics.annotation.TrackPage
 
 @TrackPage(moduleName = "登录页", pageName = "", childPageName = "")
 class LoginActivity : AppCompatActivity() {

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
+    <bytecodeTargetLevel target="1.8">
+      <module name="AnchorByASMPlugin.analytics-utils" target="11" />
+      <module name="AnchorByASMPlugin.app" target="11" />
+      <module name="AnchorByASMPlugin.loginLib" target="11" />
       <module name="ASMSample.analytics-plugin" target="1.8" />
       <module name="ASMSample.analytics-utils" target="11" />
       <module name="ASMSample.app" target="11" />

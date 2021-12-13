@@ -1,4 +1,4 @@
-package com.lucas.annotation
+package com.lucas.analytics.annotation
 
 /**
  * File TrackPageName.kt
