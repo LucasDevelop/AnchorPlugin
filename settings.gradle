@@ -1,0 +1,6 @@
+rootProject.name = "AnchorByASMPlugin"
+include ':loginLib'
+include ':analytics-utils'
+include ':analytics-plugin'
+include ':app'
+include ':analytics-annotation'
