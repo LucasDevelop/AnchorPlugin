@@ -29,7 +29,7 @@ uploadArchives {
     repositories {
         mavenDeployer {
             //指定maven仓库url
-//            repository(url: "http://192.168.1.211:8082/nexus/content/repositories/Alpha/") {
+//            repository(url: "") {
 //                //nexus登录默认用户名和密码
 //                authentication(userName: "", password: "")
 //            }
