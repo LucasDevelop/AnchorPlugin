@@ -15,7 +15,6 @@ class CommonAnnotationVisitor(visitAnnotation: AnnotationVisitor) :
     AnnotationVisitor(Opcodes.ASM5, visitAnnotation) {
     val annoParam = HashMap<String, Any>()
 
-
     override fun visit(name: String, value: Any?) {
         annoParam[name] = value ?: EMPTY_STR
 //        "方法上的注解 visit->name:$name,value:$value".log()
@@ -36,11 +35,12 @@ class CommonAnnotationVisitor(visitAnnotation: AnnotationVisitor) :
 
     override fun visitEnd() {
         super.visitEnd()
-        var temp = ""
-        annoParam.forEach {
-            temp = temp.plus(it.key).plus(":").plus(it.value).plus(",")
-        }
-        temp.log()
+        //打印参数
+//        var temp = ""
+//        annoParam.forEach {
+//            temp = temp.plus(it.key).plus(":").plus(it.value).plus(",")
+//        }
+//        temp.log()
     }
 
     inner class CommonAnnotationArrayVisitor(visitArray: AnnotationVisitor) : AnnotationVisitor(Opcodes.ASM5,visitArray) {

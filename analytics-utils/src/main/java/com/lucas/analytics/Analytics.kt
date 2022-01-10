@@ -1,6 +1,7 @@
 package com.lucas.analytics
 
 import android.app.Application
+import android.util.Log
 import com.lucas.analytics.common.IAnalytics
 import com.lucas.analytics.common.impl.FirebaseAnalytics
 
@@ -38,12 +39,12 @@ object Analytics : IAnalytics {
     }
 
     override fun trackPage(
-        moduleName: String,
-        pageName: String,
-        childPageName: String,
+        params: Map<String, Any>,
+        methodName: String,
+        des: String,
         pageClass: Class<*>
     ) {
-        proxyAnalytics.forEach { it.trackPage(moduleName, pageName, childPageName, pageClass) }
+        Log.d("lucas","[trackPage]  pageClass:$pageClass,methodName:$methodName")
     }
 
 
@@ -65,12 +66,13 @@ object Analytics : IAnalytics {
     ) {
         proxyAnalytics.forEach { analytic ->
             if (filterAnalytic.find { analytic.javaClass == it?.javaClass } == null) {
-                analytic.trackPage(moduleName, pageName, childPageName, pageClass)
+//                analytic.trackPage(moduleName, pageName, childPageName, pageClass)
             }
         }
     }
 
     override fun trackEvent(eventName: String, param: HashMap<String, Any>?) {
+        Log.d("lucas","[trackEvent]  eventName:$eventName")
         proxyAnalytics.forEach { it.trackEvent(eventName, param) }
     }
 

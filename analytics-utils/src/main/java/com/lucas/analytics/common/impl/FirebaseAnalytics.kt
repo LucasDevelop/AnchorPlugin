@@ -27,7 +27,7 @@ class FirebaseAnalytics : IAnalytics {
         if (isDebug) {
             var paramStr = ""
             userProperty?.forEach { paramStr = paramStr.plus(it.key).plus("->").plus(it.value).plus(";") }
-            "bindUserId():uid:$uid,userProperty:${paramStr}".log()
+//            "bindUserId():uid:$uid,userProperty:${paramStr}".log()
         }
         if (checkInit()) return
 //        firebaseAnalytics.setUserId(uid)
@@ -36,15 +36,14 @@ class FirebaseAnalytics : IAnalytics {
 //        }
     }
 
-    /**
-     * 跟踪界面,该方法将会在activity或者fragment的onResume中调用
-     *
-     * @param pageName 界面中文名称
-     * @param pageClass 界面class
-     */
-    override fun trackPage(moduleName:String,pageName: String, childPageName: String, pageClass: Class<*>) {
+    override fun trackPage(
+        params: Map<String, Any>,
+        methodName: String,
+        des: String,
+        pageClass: Class<*>
+    ) {
         if (isDebug) {
-            "trackPage():moduleName:${moduleName},pageName:$pageName,pageClass:$pageClass".log()
+//            "trackPage():moduleName:${moduleName},pageName:$pageName,pageClass:$pageClass".log()
         }
 //        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, Bundle().apply {
 //            putString(FirebaseAnalytics.Param.SCREEN_NAME, moduleName.plus("-").plus(pageName).plus("-").plus(childPageName))
@@ -62,7 +61,7 @@ class FirebaseAnalytics : IAnalytics {
         if (isDebug) {
             var paramStr = ""
             param?.forEach { paramStr = paramStr.plus(it.key).plus("->").plus(it.value).plus(";") }
-            "trackEvent():eventName:$eventName,size:${param?.size},param:${paramStr}".log()
+//            "trackEvent():eventName:$eventName,size:${param?.size},param:${paramStr}".log()
         }
 //        firebaseAnalytics.logEvent(eventName, Bundle().apply {
 //            param?.forEach {

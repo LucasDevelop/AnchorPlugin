@@ -23,7 +23,7 @@ interface IAnalytics {
      * @param pageName 界面中文名称
      * @param pageClass 界面class
      */
-    fun trackPage(moduleName: String, pageName: String, childPageName: String, pageClass: Class<*>)
+    fun trackPage(params: Map<String, Any>, methodName: String, des: String, pageClass: Class<*>)
 
     /**
      * 跟踪事件

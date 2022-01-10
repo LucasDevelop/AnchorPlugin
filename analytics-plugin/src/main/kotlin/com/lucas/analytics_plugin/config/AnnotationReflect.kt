@@ -7,12 +7,12 @@ object AnnotationReflect {
     val trackMethod = "Lcom/lucas/analytics/annotation/TrackMethod;"
 
     //插桩生命周期
-    val registerLifecycles = mutableListOf(
+    val registerLifecycles = listOf(
         ActivityLifecycle.ON_CREATE,
-//        ActivityLifecycle.ON_START,
+        ActivityLifecycle.ON_START,
         ActivityLifecycle.ON_RESUME,
-//        ActivityLifecycle.ON_PAUSE,
-//        ActivityLifecycle.ON_STOP,
-//        ActivityLifecycle.ON_DESTROY,
+        ActivityLifecycle.ON_PAUSE,
+        ActivityLifecycle.ON_STOP,
+        ActivityLifecycle.ON_DESTROY,
     )
 }

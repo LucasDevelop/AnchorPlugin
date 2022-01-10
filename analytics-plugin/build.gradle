@@ -1,10 +1,10 @@
 plugins {
     id 'kotlin'
     id 'groovy'
-//    id 'maven'
-    id 'com.github.dcendents.android-maven'
+//    id 'com.github.dcendents.android-maven'
 }
-apply from: "publish.gradle"
+//apply from: "publish.gradle"
+apply from: "maven_push.gradle"
 sourceSets {
     main {
         groovy {

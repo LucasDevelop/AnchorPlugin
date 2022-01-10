@@ -4,7 +4,7 @@ import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.lucas.analytics_plugin.ext.log
-import com.lucas.analytics_plugin.visitor.TrackClassNode
+import com.lucas.analytics_plugin.visitor.CommonClassNode
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -45,7 +45,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
     }
 
     //是否支持增量编译
-    override fun isIncremental(): Boolean = true
+    override fun isIncremental(): Boolean = false
 
     //注册
     override fun apply(project: Project) {
@@ -121,7 +121,6 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
         }
         val jarOutputStream = JarOutputStream(FileOutputStream(tempFile))
         while (enumeration.hasMoreElements()) {
-
             val jarEntry = enumeration.nextElement() as JarEntry
             val entryName = jarEntry.name
             val zipEntry = ZipEntry(entryName)
@@ -131,7 +130,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                 val classReader = ClassReader(IOUtils.toByteArray(inputStream))
                 val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                val trackPageClassNode = TrackClassNode(classWriter,classReader)
+                val trackPageClassNode = CommonClassNode(classWriter,classReader)
                 classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                 trackPageClassNode.accept(classWriter)
 
@@ -193,7 +192,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                             val classReader = ClassReader(changeFile.key.readBytes())
                             val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                            val trackPageClassNode = TrackClassNode(classWriter,classReader)
+                            val trackPageClassNode = CommonClassNode(classWriter,classReader)
                             classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                             trackPageClassNode.accept(classWriter)
 
@@ -231,7 +230,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                     val classReader = ClassReader(file.readBytes())
                     val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                    val trackPageClassNode = TrackClassNode(classWriter,classReader)
+                    val trackPageClassNode = CommonClassNode(classWriter,classReader)
                     classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                     trackPageClassNode.accept(classWriter)
 
@@ -257,7 +256,6 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
 
     //关闭插件，文件原封不动输出
     private fun disablePlugin(transformInvocation: TransformInvocation) {
-        println("disable plugin")
         transformInvocation.inputs.forEach {
             it.directoryInputs.forEach { dirInput ->
                 transformInvocation.outputProvider.getContentLocation(
@@ -296,6 +294,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                 !fileName.startsWith("R\$") &&
                 !fileName.startsWith("android/support") &&
                 !fileName.startsWith("androidx/") &&
+                !fileName.startsWith("com/google") &&
                 fileName != "R.class" &&
                 fileName != "R2.class" &&
                 fileName != "BuildConfig.class"
