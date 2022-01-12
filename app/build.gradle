@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-if (enablePlugin.toBoolean()) {
-    apply plugin: 'analytics-plugin'
-}
+apply plugin: 'analytics-plugin'
 //apply plugin: 'com.google.firebase.firebase-perf'
 //apply plugin: 'com.google.gms.google-services'
 android {
@@ -36,9 +34,9 @@ android {
 
 
 dependencies {
-    if (isUseRemotePlugin.toBoolean()){
+    if (isUseRemotePlugin.toBoolean()) {
         implementation 'com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.0-release'
-    }else {
+    } else {
         implementation project(path: ':analytics-utils')
     }
 
