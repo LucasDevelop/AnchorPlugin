@@ -13,7 +13,6 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
 
     val lifecycles = mutableListOf<ActivityLifecycle>()//已重载的方法
 
-
     override fun visitMethod(
         visitor: MethodVisitor,
         access: Int,
@@ -24,6 +23,13 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
     ): MethodVisitor {
         var visitMethod =
             super.visitMethod(visitor, access, name, descriptor, signature, exceptions)
+        //限制仅支持activity\fragment fixme 暂未实现
+//        if (className=="com/example/asmsample/MainActivity"){
+//            "interfaces:${interfaces.isNullOrEmpty()}".log()
+//            interfaces?.forEach {
+//                "interfaces:$it".log()
+//            }
+//        }
         AnnotationReflect.registerLifecycles
             .find { it.methodName == name && descriptor == it.des }?.let { method ->
                 "扫描方法：visitMethod:class->${className},method->${name}".log()

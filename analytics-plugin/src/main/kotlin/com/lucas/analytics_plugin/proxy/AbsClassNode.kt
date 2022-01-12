@@ -8,6 +8,7 @@ abstract class AbsClassNode : Opcodes {
     val classAnnotationVisitors = hashMapOf<String, CommonAnnotationVisitor>()
     lateinit var className: String
     lateinit var superName: String
+    var interfaces: Array<out String>? = null
 
     open fun visit(
         version: Int,
@@ -18,10 +19,15 @@ abstract class AbsClassNode : Opcodes {
         interfaces: Array<out String>?
     ) {
         className = name
-        this.superName = superName?:""
+        this.superName = superName ?: ""
+        this.interfaces = interfaces
     }
 
-    open fun visitAnnotation(annotationVisitor: AnnotationVisitor,descriptor: String?, visible: Boolean): AnnotationVisitor {
+    open fun visitAnnotation(
+        annotationVisitor: AnnotationVisitor,
+        descriptor: String?,
+        visible: Boolean
+    ): AnnotationVisitor {
         return annotationVisitor
     }
 
@@ -47,7 +53,12 @@ abstract class AbsClassNode : Opcodes {
     ) {
     }
 
-    open fun visitModule(moduleVisitor: ModuleVisitor,name: String?, access: Int, version: String?): ModuleVisitor {
+    open fun visitModule(
+        moduleVisitor: ModuleVisitor,
+        name: String?,
+        access: Int,
+        version: String?
+    ): ModuleVisitor {
         return moduleVisitor
     }
 

@@ -22,7 +22,11 @@ import java.util.zip.ZipEntry
 
 class AnalyticsTransform : Transform(), Plugin<Project> {
 
-    private val isEnablePlugin = true
+    companion object {
+        const val PLUGIN_NAME = "anchor"
+    }
+
+    private  var params=GradleParamExtension()
 
     override fun getName(): String = "AnalyticsPlugin"
 
@@ -45,17 +49,21 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
     }
 
     //是否支持增量编译
-    override fun isIncremental(): Boolean = false
+    override fun isIncremental(): Boolean = true
 
     //注册
     override fun apply(project: Project) {
+        //注册Gradle参数
+        project.extensions.create(PLUGIN_NAME, GradleParamExtension::class.java)
+        params = project.extensions.findByType(GradleParamExtension::class.java)?:GradleParamExtension()
         project.extensions.getByType(AppExtension::class.java).registerTransform(this)
     }
 
     override fun transform(transformInvocation: TransformInvocation) {
         super.transform(transformInvocation)
-        if (!isEnablePlugin) {
+        if (!params.enable) {
             disablePlugin(transformInvocation)
+            return
         }
         "Analytics 字节码插桩开始>>>>>>>>>>>>>>>>>".log()
         val startTime = System.currentTimeMillis()
@@ -130,7 +138,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                 val classReader = ClassReader(IOUtils.toByteArray(inputStream))
                 val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                val trackPageClassNode = CommonClassNode(classWriter,classReader)
+                val trackPageClassNode = CommonClassNode(classWriter, classReader)
                 classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                 trackPageClassNode.accept(classWriter)
 
@@ -192,7 +200,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                             val classReader = ClassReader(changeFile.key.readBytes())
                             val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                            val trackPageClassNode = CommonClassNode(classWriter,classReader)
+                            val trackPageClassNode = CommonClassNode(classWriter, classReader)
                             classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                             trackPageClassNode.accept(classWriter)
 
@@ -230,7 +238,7 @@ class AnalyticsTransform : Transform(), Plugin<Project> {
                     val classReader = ClassReader(file.readBytes())
                     val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
 
-                    val trackPageClassNode = CommonClassNode(classWriter,classReader)
+                    val trackPageClassNode = CommonClassNode(classWriter, classReader)
                     classReader.accept(trackPageClassNode, ClassReader.EXPAND_FRAMES)
                     trackPageClassNode.accept(classWriter)
 
