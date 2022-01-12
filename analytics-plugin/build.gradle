@@ -1,7 +1,7 @@
 plugins {
     id 'kotlin'
     id 'groovy'
-//    id 'com.github.dcendents.android-maven'
+    id 'com.github.dcendents.android-maven'
 }
 
 //apply from: "maven_push.gradle"
