@@ -3,8 +3,8 @@ plugins {
     id 'groovy'
 //    id 'com.github.dcendents.android-maven'
 }
-apply from: "publish.gradle"
-apply from: "maven_push.gradle"
+
+//apply from: "maven_push.gradle"
 sourceSets {
     main {
         groovy {
@@ -18,7 +18,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
+apply from: "publish.gradle"
 dependencies {
     implementation gradleApi()
     implementation 'com.android.tools.build:gradle:4.1.0'
