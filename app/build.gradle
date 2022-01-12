@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'analytics-plugin'
+//apply plugin: 'analytics-plugin'
 //apply plugin: 'com.google.firebase.firebase-perf'
 //apply plugin: 'com.google.gms.google-services'
 android {
@@ -34,11 +34,11 @@ android {
 
 
 dependencies {
-    if (isUseRemotePlugin.toBoolean()) {
-        implementation 'com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.1-release'
-    } else {
+//    if (isUseRemotePlugin.toBoolean()) {
+//        implementation 'com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.1-release'
+//    } else {
         implementation project(path: ':analytics-utils')
-    }
+//    }
 
     implementation project(path: ':loginLib')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -52,6 +52,6 @@ dependencies {
 }
 
 
-anchor {
-    enable = true
-}
+//anchor {
+//    enable = true
+//}

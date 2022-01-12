@@ -10,7 +10,7 @@
 
 ## 插件功能
 
-> 通过注解的方式对界面的埋点以及事件的埋点进行上报，以减少三方埋点对项目代码的入侵性。插件包含两个模块analytics和analytics-plugin。
+> 通过注解的方式对界面的埋点以及事件的埋点进行上报，以减少三方埋点对项目代码的入侵性。插件包含两个模块analytics-utils和analytics-plugin。
 
 > analytics-utils：主要包含自定义注解和工具类。
 
@@ -70,6 +70,12 @@ plugins {
 dependencies{
     //依赖插件帮助模块（包含注解和工具类）
     implementation "com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.2-release"
+}
+
+//插件配置
+anchor {
+//是否启用插件，默认是启用状态
+    enable = true
 }
 
 ```

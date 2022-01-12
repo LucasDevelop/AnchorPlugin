@@ -39,6 +39,7 @@ class SampleAnalytics : IAnalytics {
      * @param lifecycle 生命周期
      * @param pageClass 界面class
      */
+
     override fun trackPage(params: ArrayList<String>, lifecycle: Lifecycle, pageClass: Class<*>) {
         Log.d("lucas", "【界面】params$params,lifecycle:$lifecycle,pageClass:${pageClass.simpleName}")
     }
