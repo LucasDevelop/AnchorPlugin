@@ -5,6 +5,12 @@ import android.util.Log
 import com.lucas.analytics.BuildConfig
 import com.lucas.analytics.common.IAnalytics
 
+/**
+ * File FirebaseAnalytics.kt
+ * Date 2022/1/12
+ * Author lucas
+ * Introduction firebase 埋点案例
+ */
 class FirebaseAnalytics : IAnalytics {
     lateinit var firebaseAnalytics: FirebaseAnalytics
     var isDebug = BuildConfig.DEBUG

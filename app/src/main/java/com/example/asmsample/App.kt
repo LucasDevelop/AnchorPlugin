@@ -7,7 +7,9 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //新增代理
-        Analytics.register(EventReportProxy())
+        //注册监听
+        Analytics.register(SampleAnalytics())
+        //插件初始化
+        Analytics.initConfig(this)
     }
 }
