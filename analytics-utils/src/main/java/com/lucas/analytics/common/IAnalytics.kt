@@ -20,7 +20,8 @@ interface IAnalytics {
     /**
      * 跟踪界面,该方法将会在activity活着fragment的onResume中调用
      *
-     * @param pageName 界面中文名称
+     * @param params {@link com.lucas.analytics.annotation.TrackPage}中的参数
+     * @param lifecycle 生命周期
      * @param pageClass 界面class
      */
     fun trackPage(params: ArrayList<String>, lifecycle: Lifecycle, pageClass: Class<*>)
