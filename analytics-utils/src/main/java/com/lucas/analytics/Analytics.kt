@@ -14,7 +14,7 @@ import com.lucas.analytics.common.impl.FirebaseAnalytics
 object Analytics : IAnalytics {
 
     //代理对象
-    private val proxyAnalytics = mutableListOf<IAnalytics>(FirebaseAnalytics())
+    private val proxyAnalytics = mutableListOf<IAnalytics>()
 
     //注册代理
     fun register(iAnalytics: IAnalytics) {
@@ -44,35 +44,12 @@ object Analytics : IAnalytics {
         des: String,
         pageClass: Class<*>
     ) {
-        Log.d("lucas","[trackPage]  pageClass:$pageClass,methodName:$methodName")
-    }
-
-
-    /**
-     * 跟踪界面,并且过滤部分上报任务
-     *
-     * @param moduleName 模块名称
-     * @param pageName 界面名称
-     * @param childPageName 子界面名称
-     * @param pageClass 界面源文件名称
-     * @param filterAnalytic 需过滤的任务
-     */
-    fun trackPageFilter(
-        moduleName: String,
-        pageName: String,
-        childPageName: String,
-        pageClass: Class<*>,
-        filterAnalytic: Array<in IAnalytics>
-    ) {
-        proxyAnalytics.forEach { analytic ->
-            if (filterAnalytic.find { analytic.javaClass == it?.javaClass } == null) {
-//                analytic.trackPage(moduleName, pageName, childPageName, pageClass)
-            }
-        }
+        proxyAnalytics.forEach { it.trackPage(params, methodName, des, pageClass) }
+//        Log.d("lucas","[trackPage]  pageClass:$pageClass,methodName:$methodName")
     }
 
     override fun trackEvent(eventName: String, param: HashMap<String, Any>?) {
-        Log.d("lucas","[trackEvent]  eventName:$eventName")
+//        Log.d("lucas","[trackEvent]  eventName:$eventName")
         proxyAnalytics.forEach { it.trackEvent(eventName, param) }
     }
 

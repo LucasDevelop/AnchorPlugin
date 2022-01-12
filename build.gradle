@@ -7,16 +7,21 @@ buildscript {
 //        maven {
 //            url 'analytics-utils/Repo'
 //        }
+        //本地仓库地址
         maven {
             url 'analytics-plugin/Repo'
         }
+        //添加jetpack仓库
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.3"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-        if (enablePlugin.toBoolean()){
-            classpath "com.lucas.android:analytics-plugin:1.0.0"
+        if (isUseRemotePlugin.toBoolean()){
+            classpath "com.github.LucasDevelop.AnchorPlugin:analytics-plugin:1.0.0-release"//远程jetpack仓库依赖
+        }else {
+            classpath "com.lucas.android:analytics-plugin:1.0.0"//本地仓库依赖
         }
 //        classpath 'com.google.gms:google-services:4.3.5'
 //        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.1'
@@ -28,6 +33,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //添加jetpack仓库
+        maven { url "https://jitpack.io" }
     }
 }
 
