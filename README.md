@@ -10,9 +10,9 @@
 
 ## 插件功能
 
-> 通过注解的方式对界面的埋点以及事件的埋点进行上报，以减少三方埋点对项目代码的入侵性。当前以Firebase的埋点上报为例，插件包含两个模块analytics和analytics-plugin。
+> 通过注解的方式对界面的埋点以及事件的埋点进行上报，以减少三方埋点对项目代码的入侵性。插件包含两个模块analytics和analytics-plugin。
 
-> analytics：主要包含自定义注解，firebase的帮助类以及gms/firebase三方库。
+> analytics-utils：主要包含自定义注解和工具类。
 
 > analytics-plugin:ASM的字节码插桩功能实现部分。
 
@@ -123,7 +123,7 @@ class SampleAnalytics : IAnalytics {
     }
 }
 ```
-
+- Setp4
 在Application的onCreate中初始化,并注册自定义回调
 ```kotlin
  //注册监听
@@ -131,14 +131,14 @@ class SampleAnalytics : IAnalytics {
         //插件初始化
         Analytics.initConfig(this)
 ```
-
-> 在用户登录后绑定用户信息
+- Setp5
+> 在用户登录后绑定用户信息(方便在回调里获取用户信息)
 
 ```kotlin
 val userProperty = mapOf("username" to "lucas","age" to 18)
 Analytics.bindUserId("uuid123456", userProperty)
 ```
-
+- Setp6
 > 在Activity/Fragemnt中添加页面埋点
 
 ```kotlin
@@ -154,6 +154,13 @@ class PermissionActivity:AppCompatActivity(){
     }
 }
 ```
+
+- Setp7
+配置混淆
+
+> -keep class  com.lucas.analytics.** {*;}
+
+
 ----
 ## 参考资料
 
