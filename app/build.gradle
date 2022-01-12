@@ -49,6 +49,8 @@ dependencies {
 }
 
 
-anchor {
-    enable = false
+if (enablePlugin.toBoolean()) {
+    anchor {
+        enable = false
+    }
 }
