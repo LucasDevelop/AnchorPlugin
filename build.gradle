@@ -19,7 +19,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
 //        if (isUseRemotePlugin.toBoolean()){
-//            classpath "com.github.LucasDevelop.AnchorPlugin:analytics-plugin:1.0.3-release"//远程jetpack仓库依赖
+//            classpath "com.github.LucasDevelop.AnchorPlugin:analytics-plugin:1.0.3"//远程jetpack仓库依赖
 //        }else {
 //            classpath "com.lucas.android:analytics-plugin:1.0.0"//本地仓库依赖
 //        }

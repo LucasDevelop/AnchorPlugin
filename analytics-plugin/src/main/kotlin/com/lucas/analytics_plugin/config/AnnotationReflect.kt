@@ -13,6 +13,6 @@ object AnnotationReflect {
         ActivityLifecycle.onResume,
         ActivityLifecycle.onPause,
         ActivityLifecycle.onStop,
-        ActivityLifecycle.onDestroy,
+        ActivityLifecycle.onDestroy
     )
 }
