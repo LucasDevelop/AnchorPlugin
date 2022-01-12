@@ -5,18 +5,18 @@ import com.lucas.analytics.common.Lifecycle
 object LifecycleUtil {
 
     fun byLifecycle(methodName: String, des: String) =
-        if (methodName == Lifecycle.ON_CREATE.methodName && des == Lifecycle.ON_CREATE.des)
-            Lifecycle.ON_CREATE
-        else if (methodName == Lifecycle.ON_START.methodName && des == Lifecycle.ON_START.des)
-            Lifecycle.ON_START
-        else if (methodName == Lifecycle.ON_PAUSE.methodName && des == Lifecycle.ON_PAUSE.des)
-            Lifecycle.ON_PAUSE
-        else if (methodName == Lifecycle.ON_RESUME.methodName && des == Lifecycle.ON_RESUME.des)
-            Lifecycle.ON_RESUME
-        else if (methodName == Lifecycle.ON_STOP.methodName && des == Lifecycle.ON_STOP.des)
-            Lifecycle.ON_STOP
-        else if (methodName == Lifecycle.ON_DESTROY.methodName && des == Lifecycle.ON_DESTROY.des)
-            Lifecycle.ON_DESTROY
+        if (methodName == Lifecycle.onCreate.methodName && des == Lifecycle.onCreate.des)
+            Lifecycle.onCreate
+        else if (methodName == Lifecycle.onStart.methodName && des == Lifecycle.onStart.des)
+            Lifecycle.onStart
+        else if (methodName == Lifecycle.onPause.methodName && des == Lifecycle.onPause.des)
+            Lifecycle.onPause
+        else if (methodName == Lifecycle.onResume.methodName && des == Lifecycle.onResume.des)
+            Lifecycle.onResume
+        else if (methodName == Lifecycle.onStop.methodName && des == Lifecycle.onStop.des)
+            Lifecycle.onStop
+        else if (methodName == Lifecycle.onDestroy.methodName && des == Lifecycle.onDestroy.des)
+            Lifecycle.onDestroy
         else
-            Lifecycle.ON_DESTROY
+            Lifecycle.onDestroy
 }

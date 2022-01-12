@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.lucas.analytics.annotation.TrackMethod
 import com.lucas.analytics.annotation.TrackPage
 
-@TrackPage(moduleName = "登录页", pageName = "", childPageName = "")
+@TrackPage("登录页", "",  "")
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

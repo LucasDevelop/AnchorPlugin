@@ -49,21 +49,21 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
     override fun visitEnd() {
         if (classAnnotationVisitors.containsKey(AnnotationReflect.trackPage)) {
             classAnnotationVisitors[AnnotationReflect.trackPage]!!.apply {
-                val pageName = annoParam["pageName"] as String
-                val moduleName = annoParam["moduleName"] as String
-                val childPageName = annoParam["childPageName"] as String
+                "annoParam[\"params\"]：${annoParam["params"]}，${annoParam["params"]?.javaClass}".log()
+                val params = annoParam["params"] as? ArrayList<*>
+                if (params.isNullOrEmpty()) return
                 val toMutableList = AnnotationReflect.registerLifecycles.toMutableList()
                 toMutableList.removeAll(lifecycles)
                 toMutableList.forEach {
                     when (it) {
-                        ActivityLifecycle.ON_CREATE -> addOnCreate()
-                        ActivityLifecycle.ON_START,
-                        ActivityLifecycle.ON_RESUME,
-                        ActivityLifecycle.ON_PAUSE,
-                        ActivityLifecycle.ON_STOP,
-                        ActivityLifecycle.ON_DESTROY -> addFullLifecycleMethod(it)
+                        ActivityLifecycle.onCreate -> addOnCreate()
+                        ActivityLifecycle.onStart,
+                        ActivityLifecycle.onResume,
+                        ActivityLifecycle.onPause,
+                        ActivityLifecycle.onStop,
+                        ActivityLifecycle.onDestroy -> addFullLifecycleMethod(it)
                     }
-                    "全量插入【trackPage】<${className}>[methodName:${it.methodName},des:${it.des}]:moduleName:$moduleName,pageName:$pageName,childPageName:$childPageName".log()
+                    "全量插入【trackPage】<${className}>[methodName:${it.methodName},des:${it.des}]:params:$params".log()
                 }
             }
         }
@@ -92,13 +92,11 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         methodVisitor.visitLabel(label1)
         methodVisitor.visitInsn(Opcodes.ICONST_0)
         methodVisitor.visitVarInsn(Opcodes.ISTORE, 2)
-        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/HashMap")
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
         methodVisitor.visitInsn(Opcodes.DUP)
         methodVisitor.visitMethodInsn(
             Opcodes.INVOKESPECIAL,
-            "java/util/HashMap",
-            "<init>",
-            "()V",
+            "java/util/ArrayList", "<init>", "()V",
             false
         )
         val label2 = Label()
@@ -107,7 +105,8 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         var startLabel: Label? = null
         if (classAnnotationVisitors.containsKey(AnnotationReflect.trackPage)) {
             classAnnotationVisitors[AnnotationReflect.trackPage]!!.apply {
-                this.annoParam.forEach {
+                val params = annoParam["params"] as? ArrayList<*>
+                params!!.forEach {
                     if (startLabel == null) {
                         startLabel = Label()
                         methodVisitor.visitLabel(startLabel)
@@ -115,15 +114,11 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
                         methodVisitor.visitLabel(Label())
                     }
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, 1)
-                    methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
-                    methodVisitor.visitLdcInsn(it.key)
-                    methodVisitor.visitLdcInsn(it.value)
+                    methodVisitor.visitLdcInsn(it)
                     methodVisitor.visitMethodInsn(
-                        Opcodes.INVOKEINTERFACE,
-                        "java/util/Map",
-                        "put",
-                        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
-                        true
+                        Opcodes.INVOKEVIRTUAL,
+                        "java/util/ArrayList", "add", "(Ljava/lang/Object;)Z",
+                        false
                     )
                     methodVisitor.visitInsn(Opcodes.POP)
                 }
@@ -138,10 +133,13 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
             "INSTANCE",
             "Lcom/lucas/analytics/Analytics;"
         )
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, 1)
-        methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
-        methodVisitor.visitLdcInsn(lifecycle.methodName)
-        methodVisitor.visitLdcInsn(lifecycle.des)
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, 1);
+        methodVisitor.visitFieldInsn(
+            Opcodes.GETSTATIC,
+            "com/lucas/analytics/common/Lifecycle",
+            lifecycle.methodName,
+            "Lcom/lucas/analytics/common/Lifecycle;"
+        )
         methodVisitor.visitVarInsn(Opcodes.ALOAD, 0)
 //        methodVisitor.visitLdcInsn(className.classPathToType())
         methodVisitor.visitMethodInsn(
@@ -155,7 +153,7 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
             Opcodes.INVOKEVIRTUAL,
             "com/lucas/analytics/Analytics",
             "trackPage",
-            "(Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Class;)V",
+            "(Ljava/util/ArrayList;Lcom/lucas/analytics/common/Lifecycle;Ljava/lang/Class;)V",
             false
         )
         val label7 = Label()
@@ -165,7 +163,7 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         methodVisitor.visitLabel(label8)
         methodVisitor.visitLocalVariable(
             "params",
-            "Ljava/util/HashMap;",
+            "Ljava/util/ArrayList;",
             null,
             startLabel,
             label8,
@@ -179,15 +177,15 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
             label8,
             0
         )
-        methodVisitor.visitMaxs(5, 3)
+        methodVisitor.visitMaxs(4, 3)
         methodVisitor.visitEnd()
     }
 
     private fun addOnCreate() {
         val methodVisitor = classWriter.visitMethod(
             Opcodes.ACC_PROTECTED,
-            ActivityLifecycle.ON_CREATE.methodName,
-            ActivityLifecycle.ON_CREATE.des,
+            ActivityLifecycle.onCreate.methodName,
+            ActivityLifecycle.onCreate.des,
             null,
             null
         )
@@ -206,8 +204,8 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         methodVisitor.visitMethodInsn(
             Opcodes.INVOKESPECIAL,
             superName,
-            ActivityLifecycle.ON_CREATE.methodName,
-            ActivityLifecycle.ON_CREATE.des,
+            ActivityLifecycle.onCreate.methodName,
+            ActivityLifecycle.onCreate.des,
             false
         )
         val label1 = Label()
@@ -229,6 +227,7 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         var startLabel: Label? = null
         if (classAnnotationVisitors.containsKey(AnnotationReflect.trackPage)) {
             classAnnotationVisitors[AnnotationReflect.trackPage]!!.apply {
+                val params = annoParam["params"] as? Array<String>
                 this.annoParam.forEach {
                     if (startLabel == null) {
                         startLabel = Label()
@@ -261,8 +260,8 @@ class TrackPageClassNode(val classWriter: ClassWriter, val classReader: ClassRea
         )
         methodVisitor.visitVarInsn(Opcodes.ALOAD, 2)
         methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
-        methodVisitor.visitLdcInsn(ActivityLifecycle.ON_CREATE.methodName)
-        methodVisitor.visitLdcInsn(ActivityLifecycle.ON_CREATE.des)
+        methodVisitor.visitLdcInsn(ActivityLifecycle.onCreate.methodName)
+        methodVisitor.visitLdcInsn(ActivityLifecycle.onCreate.des)
         methodVisitor.visitVarInsn(Opcodes.ALOAD, 0)
         methodVisitor.visitMethodInsn(
             Opcodes.INVOKEVIRTUAL,

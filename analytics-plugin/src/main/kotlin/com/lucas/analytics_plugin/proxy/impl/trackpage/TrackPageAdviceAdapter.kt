@@ -4,12 +4,10 @@ import com.lucas.analytics_plugin.config.ActivityLifecycle
 import com.lucas.analytics_plugin.config.AnnotationReflect
 import com.lucas.analytics_plugin.ext.classPathToType
 import com.lucas.analytics_plugin.ext.log
-import com.lucas.analytics_plugin.visitor.CommonAnnotationVisitor
 import org.objectweb.asm.Label
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.commons.AdviceAdapter
-import org.objectweb.asm.tree.ClassNode
 
 class TrackPageAdviceAdapter(
     val trackPageClassNode: TrackPageClassNode,
@@ -27,15 +25,15 @@ class TrackPageAdviceAdapter(
         super.onMethodEnter()
         if (trackPageClassNode.classAnnotationVisitors.containsKey(AnnotationReflect.trackPage)) {
             trackPageClassNode.classAnnotationVisitors[AnnotationReflect.trackPage]!!.apply {
-                val isCreate = methodName == ActivityLifecycle.ON_CREATE.methodName
+                val isCreate = methodName == ActivityLifecycle.onCreate.methodName
                 methodVisitor.visitLabel(Label())
                 methodVisitor.visitInsn(ICONST_0)
                 methodVisitor.visitVarInsn(ISTORE, if (isCreate) 3 else 2)
-                methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/HashMap")
+                methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
                 methodVisitor.visitInsn(Opcodes.DUP)
                 methodVisitor.visitMethodInsn(
                     Opcodes.INVOKESPECIAL,
-                    "java/util/HashMap",
+                    "java/util/ArrayList",
                     "<init>",
                     "()V",
                     false
@@ -44,18 +42,14 @@ class TrackPageAdviceAdapter(
                 methodVisitor.visitVarInsn(Opcodes.ASTORE, if (isCreate) 2 else 1)
                 if (trackPageClassNode.classAnnotationVisitors.containsKey(AnnotationReflect.trackPage)) {
                     trackPageClassNode.classAnnotationVisitors[AnnotationReflect.trackPage]!!.apply {
-                        this.annoParam.forEach {
+                        val params = annoParam["params"] as? ArrayList<*>
+                        params!!.forEach {
                             methodVisitor.visitLabel(Label())
                             methodVisitor.visitVarInsn(Opcodes.ALOAD, if (isCreate) 2 else 1)
-                            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
-                            methodVisitor.visitLdcInsn(it.key)
-                            methodVisitor.visitLdcInsn(it.value)
+                            methodVisitor.visitLdcInsn(it)
                             methodVisitor.visitMethodInsn(
-                                Opcodes.INVOKEINTERFACE,
-                                "java/util/Map",
-                                "put",
-                                "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
-                                true
+                                Opcodes.INVOKEVIRTUAL,
+                                "java/util/ArrayList", "add", "(Ljava/lang/Object;)Z",false
                             )
                             methodVisitor.visitInsn(Opcodes.POP)
                         }
@@ -69,15 +63,22 @@ class TrackPageAdviceAdapter(
                     "Lcom/lucas/analytics/Analytics;"
                 )
                 methodVisitor.visitVarInsn(Opcodes.ALOAD, if (isCreate) 2 else 1)
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
-                methodVisitor.visitLdcInsn(methodName)
-                methodVisitor.visitLdcInsn(descriptor)
-                methodVisitor.visitLdcInsn(trackPageClassNode.className.classPathToType())
+//                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, "java/util/Map")
+//                methodVisitor.visitLdcInsn(methodName)
+//                methodVisitor.visitLdcInsn(descriptor)
+                methodVisitor.visitFieldInsn(
+                    Opcodes.GETSTATIC,
+                    "com/lucas/analytics/common/Lifecycle",
+                    methodName,
+                    "Lcom/lucas/analytics/common/Lifecycle;"
+                )
+                methodVisitor.visitVarInsn(ALOAD, 0);
+                methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
                 methodVisitor.visitMethodInsn(
                     Opcodes.INVOKEVIRTUAL,
                     "com/lucas/analytics/Analytics",
                     "trackPage",
-                    "(Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Class;)V",
+                    "(Ljava/util/ArrayList;Lcom/lucas/analytics/common/Lifecycle;Ljava/lang/Class;)V",
                     false
                 )
                 "增量插入【trackPage】<${trackPageClassNode.className}>[methodName:$methodName,des:${descriptor}]".log()

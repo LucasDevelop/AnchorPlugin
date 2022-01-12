@@ -33,7 +33,7 @@ android {
 
 dependencies {
     if (isUseRemotePlugin.toBoolean()){
-        implementation 'com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.0-release'
+        implementation 'com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.1-release'
     }else {
         implementation project(path: ':analytics-utils')
     }

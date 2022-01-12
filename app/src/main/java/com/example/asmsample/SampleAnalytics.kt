@@ -3,6 +3,7 @@ package com.example.asmsample
 import android.app.Application
 import android.util.Log
 import com.lucas.analytics.common.IAnalytics
+import com.lucas.analytics.common.Lifecycle
 
 /**
  * File SampleAnalytics.kt
@@ -24,16 +25,13 @@ class SampleAnalytics : IAnalytics {
         }
     }
 
+    override fun trackPage(params: ArrayList<String>, lifecycle: Lifecycle, pageClass: Class<*>) {
+        Log.d("lucas", "【界面】params$params,lifecycle:$lifecycle,pageClass:${pageClass.simpleName}")
+    }
+
     override fun trackEvent(eventName: String, param: HashMap<String, Any>?) {
         Log.d("lucas", "【事件】eventName:$eventName,param:$param")
     }
 
-    override fun trackPage(
-        params: Map<String, Any>,
-        methodName: String,
-        des: String,
-        pageClass: Class<*>
-    ) {
-        Log.d("lucas", "【页面】生命周期:${methodName},param:$params")
-    }
+
 }

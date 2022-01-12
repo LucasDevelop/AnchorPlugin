@@ -12,7 +12,7 @@ import com.lucas.analytics.annotation.TrackMethod;
 import com.lucas.analytics.annotation.TrackPage;
 import com.lucas.loginlib.LoginActivity;
 
-@TrackPage(moduleName = "java 页面",pageName = "JavaActivity",childPageName = "JavaActivity")
+@TrackPage(params = {"java 页面","JavaActivity", "JavaActivity"})
 public class JavaActivity extends AppCompatActivity {
 
     @Override

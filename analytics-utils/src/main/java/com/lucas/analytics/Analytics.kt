@@ -1,9 +1,8 @@
 package com.lucas.analytics
 
 import android.app.Application
-import android.util.Log
 import com.lucas.analytics.common.IAnalytics
-import com.lucas.analytics.common.impl.FirebaseAnalytics
+import com.lucas.analytics.common.Lifecycle
 
 /**
  * File Analytics.kt
@@ -38,14 +37,8 @@ object Analytics : IAnalytics {
         proxyAnalytics.forEach { it.bindUserId(uid, userProperty) }
     }
 
-    override fun trackPage(
-        params: Map<String, Any>,
-        methodName: String,
-        des: String,
-        pageClass: Class<*>
-    ) {
-        proxyAnalytics.forEach { it.trackPage(params, methodName, des, pageClass) }
-//        Log.d("lucas","[trackPage]  pageClass:$pageClass,methodName:$methodName")
+    override fun trackPage(params: ArrayList<String>, lifecycle: Lifecycle, pageClass: Class<*>) {
+        proxyAnalytics.forEach { it.trackPage(params, lifecycle, pageClass) }
     }
 
     override fun trackEvent(eventName: String, param: HashMap<String, Any>?) {

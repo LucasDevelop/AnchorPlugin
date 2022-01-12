@@ -8,11 +8,11 @@ object AnnotationReflect {
 
     //插桩生命周期
     val registerLifecycles = listOf(
-        ActivityLifecycle.ON_CREATE,
-        ActivityLifecycle.ON_START,
-        ActivityLifecycle.ON_RESUME,
-        ActivityLifecycle.ON_PAUSE,
-        ActivityLifecycle.ON_STOP,
-        ActivityLifecycle.ON_DESTROY,
+        ActivityLifecycle.onCreate,
+        ActivityLifecycle.onStart,
+        ActivityLifecycle.onResume,
+        ActivityLifecycle.onPause,
+        ActivityLifecycle.onStop,
+        ActivityLifecycle.onDestroy,
     )
 }
