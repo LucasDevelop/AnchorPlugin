@@ -1,5 +1,5 @@
-
-// 指定group，com.github.<用户名>，这里我默认填写的是我的github账号，请换成你自己的。
+//配置jitpack发布信息
+// 指定group，com.github.<用户名>，
 group='com.github.LucasDevelop'
 //---------------------------------------------
 
