@@ -44,7 +44,7 @@ buildscript{
 
     dependencies{
         //插件地址
-        classpath "com.github.LucasDevelop.AnchorPlugin:analytics-plugin:1.0.2-release"
+        classpath "com.github.LucasDevelop.AnchorPlugin:analytics-plugin:1.0.6-release"
        
     }
 }
@@ -69,7 +69,7 @@ plugins {
 
 dependencies{
     //依赖插件帮助模块（包含注解和工具类）
-    implementation "com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.2-release"
+    implementation "com.github.LucasDevelop.AnchorPlugin:analytics-utils:1.0.6-release"
 }
 
 //插件配置
